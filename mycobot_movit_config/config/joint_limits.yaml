@@ -33,3 +33,8 @@ joint_limits:
     max_velocity: 2.7925270000000002
     has_acceleration_limits: false
     max_acceleration: 0
+  link6_to_link6flange:
+    has_velocity_limits: true
+    max_velocity: 2.7925270000000002
+    has_acceleration_limits: false
+    max_acceleration: 0

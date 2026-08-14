@@ -6,3 +6,4 @@ initial_positions:
   link3_to_link4: 0
   link4_to_link5: 0
   link5_to_link6: 0
+  link6_to_link6flange: 0

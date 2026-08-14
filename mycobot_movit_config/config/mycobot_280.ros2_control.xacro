@@ -38,6 +38,12 @@
                   <param name="initial_value">${initial_positions['link5_to_link6']}</param>
                 </state_interface>
             </joint>
+            <joint name="link6_to_link6flange">
+                <command_interface name="position"/>
+                <state_interface name="position">
+                  <param name="initial_value">${initial_positions['link6_to_link6flange']}</param>
+                </state_interface>
+            </joint>
 
         </ros2_control>
     </xacro:macro>
