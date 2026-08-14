@@ -49,6 +49,8 @@
                 <state_interface name="position">
                   <param name="initial_value">${initial_positions['gripper_controller']}</param>
                 </state_interface>
+                <!-- Required by GripperActionController to monitor movement & stall state -->
+                <state_interface name="velocity"/>
             </joint>
 
         </ros2_control>
