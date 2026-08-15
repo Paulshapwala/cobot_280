@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  ros-humble:
+    container_name: ros-humble
+    build:
+      context: .
+      dockerfile: Docker/Dockerfile
+      args:
+        USERNAME: shapzonlinux
+    ipc: host
+    network_mode: host
+    privileged: true
+    environment:
+      - DISPLAY
+    volumes:
+      # Your code
+      - ./ros-packages:/home/ws
+      
+      # User home (configs, bashrc)
+      - ros-home:/home/shapzonlinux
+      
+      # .deb files cache (speeds up reinstalls)
+      - ros-apt-cache:/var/cache/apt/archives
+      
+      # Package metadata
+      - ros-apt-lists:/var/lib/apt/lists
+      
+      # # Display & GPU
+      # - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      # - /dev/dri:/dev/dri:rw
+      # - ${HOME}/.Xauthority:/home/shapzonlinux/.Xauthority:ro
+    
+    stdin_open: true
+    tty: true
+
+volumes:
+  ros-home:
+    driver: local
+  ros-apt-cache:
+    driver: local
+  ros-apt-lists:
+    driver: local
