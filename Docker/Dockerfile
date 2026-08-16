@@ -1,8 +1,12 @@
 FROM ros:humble
 
+ARG ROS_DISTRO=humble
 ARG USERNAME=shapzonlinux
 ARG USER_UID=1000
 ARG USER_GID=$USER_UID
+
+ENV USERNAME=$USERNAME
+ENV ROS_DISTRO=$ROS_DISTRO
 
 # Delete user if it exists in container
 RUN if id -u $USER_UID 2>/dev/null; then userdel `id -un $USER_UID`; fi
@@ -45,19 +49,6 @@ RUN apt-get update && apt-get install -y \
 
 ENV SHELL /bin/bash
 
-# Copy setup scripts into container (from Docker/ subdirectory)
-COPY Docker/environment-variables.sh /home/$USERNAME/environment-variables.sh
-COPY Docker/setup.sh /home/$USERNAME/setup.sh
-COPY Docker/entrypoint.sh /home/$USERNAME/entrypoint.sh
-
-# Make scripts executable and owned by user
-RUN chmod +x /home/$USERNAME/setup.sh \
-    && chmod +x /home/$USERNAME/environment-variables.sh \
-    && chmod +x /home/$USERNAME/entrypoint.sh \
-    && chown $USERNAME:$USERNAME /home/$USERNAME/setup.sh \
-    && chown $USERNAME:$USERNAME /home/$USERNAME/environment-variables.sh \
-    && chown $USERNAME:$USERNAME /home/$USERNAME/entrypoint.sh
-
 # Create reminder message in bashrc
 RUN echo '' >> /home/$USERNAME/.bashrc && \
     echo '# Reminder on login' >> /home/$USERNAME/.bashrc && \
@@ -73,6 +64,9 @@ RUN echo '' >> /home/$USERNAME/.bashrc && \
     echo 'echo "4. git add Docker/requirements.txt && git commit"' >> /home/$USERNAME/.bashrc && \
     echo 'echo ""' >> /home/$USERNAME/.bashrc
 
+
 USER $USERNAME
 RUN mkdir -p /home/$USERNAME/cobot_ws/src
 WORKDIR /home/cobot_ws
+
+CMD ["/bin/bash"]
