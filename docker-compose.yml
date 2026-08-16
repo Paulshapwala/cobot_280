@@ -1,0 +1,43 @@
+services:
+  ros-humble:
+    container_name: ros-humble
+    build:
+      context: .
+      dockerfile: Docker/Dockerfile
+      args:
+        USERNAME: shapzonlinux
+    ipc: host
+    network_mode: host
+    privileged: true
+    environment:
+      - DISPLAY=unix:0
+      - ROS_LOCALHOST_ONLY=1
+      - ROS_DOMAIN_ID=42
+    volumes:
+      # Your code
+      - ./ros-packages:/home/cobot_ws/src/
+      
+      # User home (configs, bashrc)
+      - ros-home:/home/shapzonlinux
+      
+      # .deb files cache (speeds up reinstalls)
+      - ros-apt-cache:/var/cache/apt/archives
+      
+      # Package metadata
+      - ros-apt-lists:/var/lib/apt/lists
+      
+      # Display & GPU
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - /dev/dri:/dev/dri:rw
+      - ${HOME}/.Xauthority:/home/shapzonlinux/.Xauthority:rw
+    
+    stdin_open: true
+    tty: true
+
+volumes:
+  ros-home:
+    driver: local
+  ros-apt-cache:
+    driver: local
+  ros-apt-lists:
+    driver: local
