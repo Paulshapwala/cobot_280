@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   ros-humble:
     container_name: ros-humble
@@ -12,10 +10,12 @@ services:
     network_mode: host
     privileged: true
     environment:
-      - DISPLAY
+      - DISPLAY=unix:0
+      - ROS_LOCALHOST_ONLY=1
+      - ROS_DOMAIN_ID=42
     volumes:
       # Your code
-      - ./ros-packages:/home/ws
+      - ./ros-packages:/home/cobot_ws/src/
       
       # User home (configs, bashrc)
       - ros-home:/home/shapzonlinux
@@ -26,10 +26,10 @@ services:
       # Package metadata
       - ros-apt-lists:/var/lib/apt/lists
       
-      # # Display & GPU
-      # - /tmp/.X11-unix:/tmp/.X11-unix:rw
-      # - /dev/dri:/dev/dri:rw
-      # - ${HOME}/.Xauthority:/home/shapzonlinux/.Xauthority:ro
+      # Display & GPU
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - /dev/dri:/dev/dri:rw
+      - ${HOME}/.Xauthority:/home/shapzonlinux/.Xauthority:rw
     
     stdin_open: true
     tty: true
