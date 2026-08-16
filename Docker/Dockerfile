@@ -33,6 +33,7 @@ RUN apt-get update && apt-get install -y \
     nano \
     vim \
     build-essential \
+    gedit\
     cmake \
     && rm -rf /var/lib/apt/lists/*
 
@@ -50,20 +51,7 @@ RUN apt-get update && apt-get install -y \
 ENV SHELL /bin/bash
 
 # Create reminder message in bashrc
-RUN echo '' >> /home/$USERNAME/.bashrc && \
-    echo '# Reminder on login' >> /home/$USERNAME/.bashrc && \
-    echo 'echo "╔═════════════════════════════════════════════════════════╗"' >> /home/$USERNAME/.bashrc && \
-    echo 'echo "║   REMINDER: Update your requirements files!             ║"' >> /home/$USERNAME/.bashrc && \
-    echo 'echo "╚═════════════════════════════════════════════════════════╝"' >> /home/$USERNAME/.bashrc && \
-    echo 'echo ""' >> /home/$USERNAME/.bashrc && \
-    echo 'echo "If you installed packages: sudo apt install <package>"' >> /home/$USERNAME/.bashrc && \
-    echo 'echo "Do BEFORE exiting:"' >> /home/$USERNAME/.bashrc && \
-    echo 'echo "1. sudo apt-mark showmanual"' >> /home/$USERNAME/.bashrc && \
-    echo 'echo "2. Add to: Docker/requirements.txt"' >> /home/$USERNAME/.bashrc && \
-    echo 'echo "3. Update: Docker/environment-variables.sh (if needed)"' >> /home/$USERNAME/.bashrc && \
-    echo 'echo "4. git add Docker/requirements.txt && git commit"' >> /home/$USERNAME/.bashrc && \
-    echo 'echo ""' >> /home/$USERNAME/.bashrc
-
+RUN echo '💡 Install new packages? Add to Dockerfile, rebuild, and commit to git' >> /home/$USERNAME/.bashrc
 
 USER $USERNAME
 RUN mkdir -p /home/$USERNAME/cobot_ws/src
