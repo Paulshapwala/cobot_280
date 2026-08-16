@@ -32,6 +32,17 @@ RUN apt-get update && apt-get install -y \
     cmake \
     && rm -rf /var/lib/apt/lists/*
 
+# Set environment variable
+ENV RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
+
+# Install RMW and MoveIt (now with env var set)
+RUN apt-get update && apt-get install -y \
+    ros-${ROS_DISTRO}-rmw-cyclonedds-cpp \
+    ros-${ROS_DISTRO}-moveit \
+    ros-humble-ros2-control \
+    ros-humble-ros2-controllers \
+    && rm -rf /var/lib/apt/lists/*
+
 ENV SHELL /bin/bash
 
 # Copy setup scripts into container (from Docker/ subdirectory)
@@ -63,7 +74,5 @@ RUN echo '' >> /home/$USERNAME/.bashrc && \
     echo 'echo ""' >> /home/$USERNAME/.bashrc
 
 USER $USERNAME
-WORKDIR /home/ws
-
-# Run entrypoint.sh which runs setup.sh and then bash
-ENTRYPOINT ["/home/shapzonlinux/entrypoint.sh"]
+RUN mkdir -p /home/$USERNAME/cobot_ws/src
+WORKDIR /home/cobot_ws
