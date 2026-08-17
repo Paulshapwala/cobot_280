@@ -7,9 +7,16 @@ endif()
 
 # find dependencies
 find_package(ament_cmake REQUIRED)
-# uncomment the following section in order to fill in
-# further dependencies manually.
-# find_package(<dependency> REQUIRED)
+
+# further dependencies
+find_package( REQUIRED)
+find_package( controller_manager REQUIRED)
+find_package( gripper_controller REQUIRED)
+find_package( rlcpp REQUIRED)
+find_package( ros2_control REQUIRED)
+find_package( ros2_controllers REQUIRED)
+find_package( trajectory_msgs REQUIRED)
+find_package( xacro REQUIRED)
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
