@@ -51,7 +51,7 @@ RUN apt-get update && apt-get install -y \
 ENV SHELL /bin/bash
 
 # Create reminder message in bashrc
-RUN echo '💡 Install new packages? Add to Dockerfile, rebuild, and commit to git' >> /home/$USERNAME/.bashrc
+RUN echo 'echo "💡 Install new packages? Add to Dockerfile, rebuild, and commit to git"' >> /home/$USERNAME/.bashrc
 
 USER $USERNAME
 RUN mkdir -p /home/$USERNAME/cobot_ws/src
