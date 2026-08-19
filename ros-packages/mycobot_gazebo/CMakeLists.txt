@@ -9,10 +9,10 @@ endif()
 find_package(ament_cmake REQUIRED)
 
 # further dependencies
-find_package( REQUIRED)
+
 find_package( controller_manager REQUIRED)
-find_package( gripper_controller REQUIRED)
-find_package( rlcpp REQUIRED)
+find_package( gripper_controllers REQUIRED)
+find_package( rclcpp REQUIRED)
 find_package( ros2_control REQUIRED)
 find_package( ros2_controllers REQUIRED)
 find_package( trajectory_msgs REQUIRED)
