@@ -48,13 +48,18 @@ RUN apt-get update && apt-get install -y \
     ros-${ROS_DISTRO}-ros2-controllers \
     && rm -rf /var/lib/apt/lists/*
 
+# Install gazebo and gazebo pkgs
+RUN apt-get update && apt-get install -y \
+    apt-get install ros-${ROS_DISTRO}-ros-gz \
+    && rm -rf /var/lib/apt/lists/*
+
 ENV SHELL /bin/bash
 
 # Create reminder message in bashrc
 RUN echo 'echo "💡 Install new packages? Add to Dockerfile, rebuild, and commit to git"' >> /home/$USERNAME/.bashrc
 
 USER $USERNAME
-# Fixed path consistency to place workspace in user home directory
+# path consistency to place workspace in user home directory
 RUN mkdir -p /home/$USERNAME/cobot_ws/src
 WORKDIR /home/$USERNAME/cobot_ws
 
