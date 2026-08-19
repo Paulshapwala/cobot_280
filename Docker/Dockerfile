@@ -1,6 +1,6 @@
-FROM ros:humble
+FROM ros:jazzy
 
-ARG ROS_DISTRO=humble
+ARG ROS_DISTRO=jazzy
 ARG USERNAME=shapzonlinux
 ARG USER_UID=1000
 ARG USER_GID=$USER_UID
@@ -19,33 +19,33 @@ RUN groupadd --gid $USER_GID $USERNAME \
     && echo $USERNAME ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME \
     && chmod 0440 /etc/sudoers.d/$USERNAME
 
-# Install base packages (no environment variables required)
+# Install base packages and ROS dependencies using variable substitution
 RUN apt-get update && apt-get install -y \
-    ros-humble-joint-state-publisher-gui \
-    ros-humble-xacro \
-    ros-humble-demo-nodes-cpp \
-    ros-humble-demo-nodes-py \
-    ros-humble-rviz2 \
-    ros-humble-rqt-reconfigure \
+    ros-${ROS_DISTRO}-joint-state-publisher-gui \
+    ros-${ROS_DISTRO}-xacro \
+    ros-${ROS_DISTRO}-demo-nodes-cpp \
+    ros-${ROS_DISTRO}-demo-nodes-py \
+    ros-${ROS_DISTRO}-rviz2 \
+    ros-${ROS_DISTRO}-rqt-reconfigure \
     python3-pip \
     git \
     wget \
     nano \
     vim \
     build-essential \
-    gedit\
+    gedit \
     cmake \
     && rm -rf /var/lib/apt/lists/*
 
 # Set environment variable
 ENV RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
 
-# Install RMW and MoveIt (now with env var set)
+# Install RMW, MoveIt, and ROS2 Control
 RUN apt-get update && apt-get install -y \
     ros-${ROS_DISTRO}-rmw-cyclonedds-cpp \
     ros-${ROS_DISTRO}-moveit \
-    ros-humble-ros2-control \
-    ros-humble-ros2-controllers \
+    ros-${ROS_DISTRO}-ros2-control \
+    ros-${ROS_DISTRO}-ros2-controllers \
     && rm -rf /var/lib/apt/lists/*
 
 ENV SHELL /bin/bash
@@ -54,7 +54,8 @@ ENV SHELL /bin/bash
 RUN echo 'echo "💡 Install new packages? Add to Dockerfile, rebuild, and commit to git"' >> /home/$USERNAME/.bashrc
 
 USER $USERNAME
+# Fixed path consistency to place workspace in user home directory
 RUN mkdir -p /home/$USERNAME/cobot_ws/src
-WORKDIR /home/cobot_ws
+WORKDIR /home/$USERNAME/cobot_ws
 
 CMD ["/bin/bash"]
