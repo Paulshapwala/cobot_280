@@ -1,13 +1,6 @@
 cmake_minimum_required(VERSION 3.8)
 project(mycobot_description)
  
-# Install launch directory
-install(DIRECTORY launch DESTINATION share/${PROJECT_NAME})
-install(DIRECTORY urdf DESTINATION share/${PROJECT_NAME})
-install(DIRECTORY worlds DESTINATION share/${PROJECT_NAME})
-install(DIRECTORY config DESTINATION share/${PROJECT_NAME})
-install(DIRECTORY meshes DESTINATION share/${PROJECT_NAME})
-
 # Check if the compiler being used is GNU's C++ compiler (g++) or Clang.
 # Add compiler flags for all targets that will be defined later in the 
 # CMakeLists file. These flags enable extra warnings to help catch

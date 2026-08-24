@@ -74,13 +74,6 @@
       <pose>0.5 0.15 0.15 0 0 2.3</pose>
     </include>
 
-    <model name="robot_arm">
-      <include>
-        <uri>model://mycobot_description/urdf/mycobot_280_urdf.xacro</uri>
-        <pose>0 0 0 0 0 0</pose>
-      </include>
-    </model>
-
     <!-- Define scene properties -->
     <scene>
       <shadows>false</shadows>
